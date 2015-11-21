@@ -1,3 +1,5 @@
+""" This module contains the Node and LinkedList class and their accompanying methods."""
+
 class Node(object):
 
     def __init__(self, data=None, next_node=None):
