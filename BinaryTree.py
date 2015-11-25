@@ -19,6 +19,7 @@ class BinaryTree:
 	    print tree.cargo,
 	    print_tree(tree.left)
 	    print_tree(tree.right)
+	    return True
 
 	def print_tree_postorder(tree):
     	""" Postorder tree traversal."""
@@ -28,6 +29,7 @@ class BinaryTree:
 	    print_tree_postorder(tree.left)
 	    print_tree_postorder(tree.right)
 	    print tree.cargo
+	    return True
 
 	def print_tree_inorder(tree):
     	""" Inorder tree traversal."""
@@ -37,3 +39,4 @@ class BinaryTree:
 	    print_tree_inorder(tree.left)
 	    print tree.cargo,
 	    print_tree_inorder(tree.right)
+	    return True
