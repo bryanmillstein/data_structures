@@ -1,8 +1,8 @@
-""" This module contains the Stack class and its accompanying methods. We will
+""" This module contains the Stack class. We will
     use Python's primitive data type, List, to implement the Stack. Note that this
     implementation assumes the top of the Stack is the end of the list."""
 
-class Stack():
+class Stack:
 
     def __init__(self):
         self.items = []

@@ -1,10 +1,10 @@
-""" This module contains the Queue class and its accompanying methods. We will
+""" This module contains the Queue class. We will
     use Python's primitive data type, List, to implement the Queue. Note that this
     implementation assumes the front and back of the Queue correspond in such a
     way to the List."""
 
 
-class Queue():
+class Queue:
 
     def __init__(self):
         self.items = []
