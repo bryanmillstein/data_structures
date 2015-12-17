@@ -7,3 +7,4 @@ A project for implementing various data structures from scratch in Python.
 4. Tree
 5. Binary Tree
 6. Trie
+7. Graph
