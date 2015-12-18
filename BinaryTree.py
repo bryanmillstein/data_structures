@@ -11,6 +11,28 @@ class BinaryTree:
     def __str__(self):
     	return str(self.cargo)
 
+    def getRightChild(self):
+        return self.right
+
+    def getLeftChild(self):
+        return self.left
+
+    def insertLeft(self, newNode):
+        if self.left:
+            newTree = BinaryTree(newNode)
+            newTree.left = self.left
+            self.left = newTree
+        else:
+            self.left = BinaryTree(newNode)
+
+    def insertRight(self, newNode):
+        if self.right:
+            newTree = BinaryTree(newNode)
+            newTree.right = self.right
+            self.right = newTree
+        else:
+            self.right = BinaryTree(newNode)
+            
     def print_tree_preorder(tree):
     	""" Preorder tree traversal."""
     	if tree == None: 
@@ -37,6 +59,3 @@ class BinaryTree:
 		print_tree_inorder(tree.left)
 		print tree.cargo
 		print_tree_inorder(tree.right)
-
-name = input('please enter name')
-print 'hey ' + name + ' how are you?'
