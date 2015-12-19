@@ -182,23 +182,48 @@ def traverse(start, target):
 def generateMoves(x, y, boardSize):
     jumps = [[1,2], [1,-2], [-1,2], [-1,-2],
             [2,1], [2,-1], [-2,1], [-2,-1]]
-
     moves = []
     for jump in jumps:
         newX = x + jump[0]
         newY = y + jump[1]
 
-        if (newY >= 0 and newY <= boardSize) and (newX >= 0 and newX <= boardSize):
+        if (newY >= 0 and newY <= boardSize-1) and (newX >= 0 and newX <= boardSize-1):
             moves.append([newX, newY])
     return moves
 
 def buildKnightsGraph(boardSize):
     knightGraph = Graph()
-
-    for i in range(boardSize):
-        x, y = i % 5, i / 5
-        moves = generateMoves(x, y, boardSize)
-        for move in moves:
-            convertedSquare = move[1] + (move[0] * 5)
-            graph.addEdge(i, convertedSquare)
+    for i in range(boardSize*boardSize):
+		x = i % 5
+		y = i / 5
+		moves = generateMoves(x, y, boardSize)
+		for move in moves:
+			convertedSquare = move[1] + (move[0] * 5)
+			knightGraph.addEdge(i, convertedSquare)
     return knightGraph
+
+def knightsTour(vertex, path, numSquares):
+	vertex.color = 'gray'
+	path.append(vertex)
+
+	if len(path) < numSquares:
+		nbrs = vertex.getConnections()
+		fullyExplored = False
+		index = 0
+		while index < len(nbrs) and not fullyExplored:
+			if nbrs[index].color == 'white':
+				fullyExplored = knightsTour(nbrs[index], path, numSquares)
+			index += 1
+		if not fullyExplored:
+			path.pop()
+			vertex.color = 'white'
+	else:
+		pathIds = [vertex.id for vertex in path]
+		return pathIds
+	return fullyExplored
+
+knightsGraph = buildKnightsGraph(5)
+path = knightsTour(knightsGraph.vertList[0],[],24)
+print path
+# for vertex in path:
+# 	print vertex.id
