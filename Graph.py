@@ -41,7 +41,7 @@ class EdgeGraph:
 		else:
 			for vertex in graph[start_vertex]:
 				if vertex not in path:
-					extended_path = self.find_path(vertex, end_vertex, path)
+					extended_path = self.find_shortest_path(vertex, end_vertex, path)
 
 					if extended_path:
 						if not shortest_path or len(extended_path) < len(shortest_path):
@@ -68,6 +68,7 @@ class EdgeGraph:
 # graph = Graph(edges)
 # print graph.find_all_paths('A', 'C')
 
+# Adjacency list implementation.
 class Graph():
     def __init__(self):
         self.vertList = {}
@@ -100,12 +101,27 @@ class Graph():
 
 
 class Vertex():
-    def __init__(self, key):
-        self.id = key
-        self.connectedTo = {}
+    def __init__(self, key, distance=0, pred=None):
+		self.id = key
+		self.connectedTo = {}
+		self.color = 'white'
+		self.distance = distance
+		self.pred = pred
 
     def addNeighbor(self, neighbor, weight=0):
         self.connectedTo[neighbor] = weight
+
+	def getDistance(self):
+		return self.distance
+
+	def setDistance(self, distance):
+		self.distance = distance
+
+	def getPred(self):
+		return self.pred
+
+	def setPred(self, pred):
+		self.pred = pred
 
     def getConnections(self):
         return self.connectedTo.keys()
@@ -115,23 +131,50 @@ class Vertex():
 
 
 def buildGraph():
-    d = {}
-    graph = Graph()
+	d = {}
+	graph = Graph()
+	lines = open('words.py', 'r')
+	for line in lines:
+		word = line[1:-2]
+		for i in range(len(word)):
+			bucket = word[:i] + '_' + word[i+1:]
+			if bucket not in d:
+				d[bucket] = [word]
+			else:
+				d[bucket].append(word)
 
-    lines = open('words.py')
-    for line in lines:
-        word = line[1:-2]
-        for i in range(len(word)):
-            bucket = word[:i] + '_' + word[i+1:]
-            if bucket not in d:
-                d[bucket] = [word]
-            else:
-                d[bucket].append(word)
+	for bucket in d.keys():
+		for word1 in d[bucket]:
+			for word2 in d[bucket]:
+				if word1 != word2:
+					graph.addEdge(word1, word2)
+	return graph
 
-    for bucket in d.keys():
-        for word1 in d[bucket]:
-            for word2 in d[bucket]:
-                if word1 != word2:
-                    graph.addEdge(word1, word2)
-    print d
-buildGraph()
+def wordLadder(start):
+	graph = buildGraph()
+	startPos = graph.vertList[start]
+
+	queue = [startPos]
+	while len(queue) > 0:
+		currentVertex = queue.pop(0)
+		for nbr in currentVertex.connectedTo.keys():
+			if nbr.color == 'white':
+				nbr.color = 'gray'
+				nbr.pred = currentVertex
+				nbr.distance = currentVertex.distance + 1
+				queue.append(nbr)
+		currentVertex.color = 'black'
+	return graph
+
+def traverse(start, target):
+	graph = wordLadder(start)
+	x = graph.vertList[target]
+	path = []
+	while (x):
+		path.insert(0,x)
+		x = x.pred
+
+	for word in path:
+		print word.id
+
+traverse('fool', 'sage')
