@@ -6,5 +6,6 @@ A project for implementing various data structures from scratch in Python.
 3. Stack
 4. Tree
 5. Binary Tree
-6. Trie
-7. Graph
+6. Binary Heap
+7. Trie
+8. Graph

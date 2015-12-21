@@ -73,6 +73,7 @@ class Graph():
     def __init__(self):
         self.vertList = {}
         self.numVertices = 0
+		self.time = 0
 
     def addVertex(self, key):
         self.numVertices += 1
@@ -107,6 +108,8 @@ class Vertex():
 		self.color = 'white'
 		self.distance = distance
 		self.pred = pred
+		self.discoveryTime = None
+		self.finishTime = None
 
     def addNeighbor(self, neighbor, weight=0):
         self.connectedTo[neighbor] = weight
