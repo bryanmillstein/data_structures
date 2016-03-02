@@ -64,3 +64,15 @@ class LinkedList:
 
         raise ValueError('Data is not in the list. Sorry.')
         return None
+
+
+def longestPalindrome(string):
+    index = len(string)
+    while index > 0:
+        startPoint = 0
+        while startPoint + index <= len(string):
+            if isPalindrome(string[startPoint:startPoint + index]):
+                return string[startPoint:startPoint + index]
+            startPoint += 1
+        index -= 1
+    return None
