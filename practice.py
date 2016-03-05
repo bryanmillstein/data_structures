@@ -239,7 +239,7 @@ def bestValue(items, weight, i):
 
 def knapsack(items, totalWeight):
     """
-    input: 
+    input:
         items: [[W1, V1], [W2, V2], [W3, V3]]
         totalWeight: W
     """
@@ -264,3 +264,22 @@ def multiTable(tableSize):
         result.append(currentRow)
 
     return result
+
+def primes(n):
+    start = n - 1
+
+    while start > 1:
+        if isPrime(start):
+            print start
+        start -= 1
+
+def isPrime(n):
+    start = n - 1
+
+    while start > 1:
+        if n % start == 0:
+            return False
+        start -= 1
+    return True
+
+primes(200)
