@@ -157,7 +157,6 @@ def dutch_sort(array):
     low_index = 0
     placeholder_index = 0
 
-
     while low_index <= high_index:
         if array[low_index] == 0:
             array[low_index], array[placeholder_index] = array[placeholder_index], array[low_index]
@@ -282,4 +281,298 @@ def isPrime(n):
         start -= 1
     return True
 
-primes(200)
+def bubbleSort(array):
+    swap = True
+
+    while swap:
+        swap = False
+        for idx in range(len(array) - 1):
+            if array[idx] > array[idx + 1]:
+                swap = True
+                array[idx], array[idx+1] = array[idx+1], array[idx]
+    return array
+
+
+def selectionSort(array):
+    largest_index = None
+    last_index = len(array) - 1
+
+    for count in range(len(array) - 1):
+        for i in range(len(array) - 1 - count):
+            if largest_index == None or array[i] > array[largest_index]:
+                largest_index = i
+
+        if largest_index != None:
+            array[largest_index], array[last_index] = array[last_index], array[largest_index]
+            largest_index = None
+            last_index = len(array) - 2 - count
+    return array
+
+
+def insertionSort(array):
+    for index in range(1, len(array)):
+        current_value = array[index]
+        position = index
+
+        while position >= 1 and array[position - 1] > current_value:
+            array[position] = array[position - 1]
+            position -= 1
+
+        array[position] = current_value
+    return array
+
+def mergeSort(array):
+
+    if len(array) <= 1:
+        return array
+
+    midpoint = len(array) / 2
+    left = array[:midpoint]
+    right = array[midpoint:]
+
+    return merge(mergeSort(left), mergeSort(right))
+
+def merge(arr1, arr2):
+
+    new_array = []
+    arr1_idx = 0
+    arr2_idx = 0
+
+    while arr1_idx < len(arr1) and arr2_idx < len(arr2):
+        if arr1[arr1_idx] <= arr2[arr2_idx]:
+            new_array.append(arr1[arr1_idx])
+            arr1_idx += 1
+        else:
+            new_array.append(arr2[arr2_idx])
+            arr2_idx += 1
+
+    while arr1_idx < len(arr1):
+        new_array.append(arr1[arr1_idx])
+        arr1_idx += 1
+
+    while arr2_idx < len(arr2):
+        new_array.append(arr2[arr2_idx])
+        arr2_idx += 1
+
+
+    return new_array
+
+
+def quickSort(array):
+    quickSortHelper(array, 0, len(array) - 1)
+    return array
+
+def quickSortHelper(array, first, last):
+    if first < last:
+        split_point = partition2(array, first, last)
+
+        quickSortHelper(array, first, split_point - 1)
+        quickSortHelper(array, split_point + 1, last)
+
+def partition2(array, first, last):
+    pivot_value = array[first]
+
+    leftmark = first + 1
+    rightmark = last
+
+    done = False
+    while not done:
+
+        while leftmark <= rightmark and array[leftmark] <= pivot_value:
+            leftmark += 1
+
+        while leftmark <= rightmark and array[rightmark] >= pivot_value:
+            rightmark -= 1
+
+        if leftmark > rightmark:
+            done = True
+        else:
+            array[leftmark], array[rightmark] = array[rightmark], array[leftmark]
+
+    array[rightmark], array[first] = array[first], array[rightmark]
+    return rightmark
+
+def evaluateParseTree(root):
+    opers = {
+        '+': opers.add,
+        '-': opers.sub,
+        '*': opers.mul,
+        '/': truediv
+    }
+
+    if root.getLeftChild() and root.getRightChild():
+        fn = opers[root.getRootVal()]
+        return fn(evaluateParseTree(root.getLeftChild()), evaluateParseTree(root.getLeftChild()))
+    else:
+        return root.getRootVal()
+
+def fibo(n):
+    if n <= 1:
+        return [0]
+    elif n == 2:
+        return [0, 1]
+    else:
+        fibos = fibo(n - 1)
+        fibos.append(fibos[-1] + fibos[-2])
+        return fibos
+
+
+def equi(arr):
+    if len(arr) < 3:
+        return -1
+
+    total_sum = 0
+    for num in arr:
+        total_sum += num
+
+    left_sum = 0
+    right_sum = total_sum - arr[0]
+    for index in range(1, len(arr)):
+        left_sum += arr[index - 1]
+        right_sum -= arr[index]
+        if left_sum == right_sum:
+            return index
+    return - 1
+
+
+# print equi([1,2,3,1,2])
+# print equi([-1,2,3,1,2,8,7])
+
+
+def solution(A):
+    # write your code in Python 2.7
+
+    count = 0
+    for circle1index, num in enumerate(A):
+        for circle2index, num in enumerate(A):
+            if circle1index != circle2index:
+                # check for intersection between two circles.
+                if (circle1index + A[circle1index] <= circle2index + A[circle2index] or circle2index + A[circle2index] <= circle1index + A[circle1index]) and (circle1index - A[circle1index] >= circle2index - A[circle2index] or circle2index - A[circle2index] >= circle1index - A[circle1index]):
+                    count += 1
+                    if count > 10000000:
+                        return -1
+    return count
+
+
+# you can write to stdout for debugging purposes, e.g.
+# print "this is a debug message"
+
+def solution(S):
+    # write your code in Python 2.7
+
+    words_in_longest = 0
+    current_sentence_count = 0
+    current_word = 0
+    for letter in S:
+        if letter not in ['?', '.', '!']:
+            if letter != " ":
+                current_word += 1
+            else:
+                if current_word > 1:
+                    current_sentence_count += 1
+        else:
+            if current_sentence_count > words_in_longest:
+                words_in_longest = current_sentence_count
+                current_sentence_count = 0
+    return words_in_longest
+
+
+def reverse(stringInput):
+    str1 = list(stringInput)
+    print str1
+    for i in range(len(str1) / 2):
+        str1[i], str1[len(str1) -1 - i] = str1[len(str1) -1 - i], str1[i]
+
+    return "".join(str1)
+
+def fibo(n):
+    if n == 1:
+        return 0
+    if n == 2:
+        return 1
+
+    next_last = 0
+    last = 1
+
+    count = 2
+
+    while count < n:
+        last, next_last = next_last + last, last
+        count += 1
+    return last
+
+def multiTable2(size):
+
+    for row in range(1, size + 1):
+        print_row = []
+        for col in range(1, size + 1):
+            print_row.append(str(row * col))
+        print " ".join(print_row)
+
+
+def sum_ints(file):
+    ints = open(file, 'r')
+
+    sum = 0
+    for i in ints:
+        sum += int(i)
+
+    return sum
+
+def odds():
+
+    for i in range(1, 100):
+        if i % 2 != 0:
+            print i
+
+def largest_value(arr):
+    largest = None
+
+    for i in range(1, len(arr)):
+        if largest < arr[i]:
+            largest = arr[i]
+
+    return largest
+
+def hexa(alist):
+
+    values = [0,1,2,3,4,5,6,7,8,9,'A', 'B', "C", "D", "E", "F"]
+
+    string_output = "#"
+
+    for i in range(3):
+        first = str(alist[i] / 16)
+        second = alist[i] % 16
+        string_output += first + str(values[second])
+
+    return string_output
+
+class First(object):
+    def __init__(self):
+        # print "first"
+        self.my_dog = 'charlie'
+
+class Second(First):
+    def __init__(self):
+        super(Second, self).__init__()
+        self.my_val = 'cat'
+        # print "second"
+
+    def eat(self):
+        print "I ate"
+
+class Third(Second):
+    def __init__(self):
+        super(Third, self).__init__()
+        # print "third"
+
+    def eat(self):
+        print "WEEEEEEEEEE"
+
+# Counting in Binary
+
+10 = 1010
+
+25 = 11001
+
+110 = 1101110

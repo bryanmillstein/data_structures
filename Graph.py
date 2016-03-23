@@ -71,8 +71,8 @@ class EdgeGraph:
 # Adjacency list implementation.
 class Graph():
     def __init__(self):
-        self.vertList = {}
-        self.numVertices = 0
+		self.vertList = {}
+		self.numVertices = 0
 		self.time = 0
 
     def addVertex(self, key):
@@ -176,11 +176,11 @@ def traverse(start, target):
 	while (x):
 		path.insert(0,x)
 		x = x.pred
+	return path
 
-	for word in path:
-		print word.id
-
-# traverse('fool', 'sage')
+# path = traverse('fool', 'sage')
+# for word in path:
+# 	print word.id
 
 def generateMoves(x, y, boardSize):
     jumps = [[1,2], [1,-2], [-1,2], [-1,-2],
@@ -225,8 +225,40 @@ def knightsTour(vertex, path, numSquares):
 		return pathIds
 	return fullyExplored
 
-knightsGraph = buildKnightsGraph(5)
-path = knightsTour(knightsGraph.vertList[0],[],24)
-print path
+# knightsGraph = buildKnightsGraph(5)
+# path = knightsTour(knightsGraph.vertList[0],[],24)
+# print path
 # for vertex in path:
 # 	print vertex.id
+
+
+
+
+def generateMoves(x, y, boardSize):
+	jumps = [
+		[2, 1],
+		[2, -1],
+		[-2, 1],
+		[-2, -1],
+		[1, 2],
+		[1, -2],
+		[-1, 2],
+		[-1, -2]
+	]
+	moves = []
+	for jump in jumps:
+		move = [x + jump[0], y + jump[1]]
+
+		if (move[0] >= 0 and move[0] <= boardSize - 1) and (move[1] >= 0 and move[1] <= boardSize - 1):
+			moves.append(move)
+	return moves
+
+def buildKnightsGraph(boardSize):
+	knightsGraph = Graph()
+
+	for i in range(boardSize * boardSize):
+		moves = generateMoves(i / 5, i % 5, boardSize)
+
+		for move in moves:
+			knightsGraph.addEdge(i, move[1] + (move[0] * 5))
+	return knightsGraph
