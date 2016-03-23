@@ -264,6 +264,7 @@ def multiTable(tableSize):
 
     return result
 
+<<<<<<< HEAD
 def primes(n):
     start = n - 1
 
@@ -576,3 +577,294 @@ class Third(Second):
 25 = 11001
 
 110 = 1101110
+
+class Stack:
+
+	def __init__(self):
+		self.items = []
+
+	def push(self, item):
+		self.items.append(item)
+
+	def pop(self):
+		return self.items.pop()
+
+	def peek(self):
+		return self.items[len(self.items) - 1]
+
+	def is_empty(self):
+		return not self.items
+
+	def size(self):
+		return len(self.items)
+
+
+def revstring(mystr):
+    stack = Stack()
+
+    for letter in mystr:
+        stack.push(letter)
+
+    new_str = []
+    while not stack.is_empty():
+        new_str.append(stack.pop())
+
+    return "".join(new_str)
+
+class Queue:
+
+    def __init__(self):
+        self.items = []
+
+    def enqeue(self, item):
+        self.items.append(item)
+
+    def deqeue(self):
+        if not self.empty():
+            return self.items.pop(0)
+
+    def empty(self):
+        return not self.items
+
+    def size(self):
+        return len(self.items)
+
+    def peek(self):
+        return self.items[0]
+
+def hot_potato(names, n):
+    queue = Queue()
+    for name in names:
+        queue.enqeue(name)
+
+
+    while queue.size() > 1:
+        for i in range(n):
+            first = queue.deqeue()
+            queue.enqeue(first)
+        queue.deqeue()
+    return queue.peek()
+
+def is_palindrome(string):
+    for i in range(len(string)/2):
+        if string[i] != string[len(string) - 1 - i]:
+            return False
+    return True
+
+def pairs(K, alist):
+    all_nums = {}
+    for num in alist:
+        all_nums[str(num)] = True
+
+    count = 0
+    for num in alist:
+        try:
+            num = all_nums[str(num - K)]
+            if num:
+                count += 1
+        except:
+            pass
+
+    return count
+
+# print pairs(2, [1,5,3,4,2]) -> 3
+# print pairs(3, [1,5,3,4,2]) -> 2
+
+class Graph:
+
+    def __init__(self):
+        self.vertexList = {}
+
+class Vertex:
+
+    def __init__(self, value):
+        self.value = value
+        self.color = 'white'
+        self.pred = None
+        self.distance = 1000
+        self.connectedTo = []
+
+    def addEdge(self, connectedEdge):
+        self.connectedTo.append(connectedEdge)
+
+def buildGraph(vertices):
+    graph= Graph()
+
+    for value in vertices:
+        newVertex = Vertex(value)
+        graph.vertexList[value] = newVertex
+
+    graph.vertexList['A'].addEdge(graph.vertexList['H'], 2)
+    graph.vertexList['A'].addEdge(graph.vertexList['B'], 1)
+    graph.vertexList['A'].addEdge(graph.vertexList['I'], 50)
+    graph.vertexList['B'].addEdge(graph.vertexList['A'], 1)
+    graph.vertexList['B'].addEdge(graph.vertexList['C'], 1)
+    graph.vertexList['C'].addEdge(graph.vertexList['B'], 1)
+    graph.vertexList['C'].addEdge(graph.vertexList['D'], 1)
+    graph.vertexList['D'].addEdge(graph.vertexList['C'], 1)
+    graph.vertexList['D'].addEdge(graph.vertexList['E'], 10)
+    graph.vertexList['D'].addEdge(graph.vertexList['I'], 1)
+    graph.vertexList['E'].addEdge(graph.vertexList['F'], 2)
+    graph.vertexList['E'].addEdge(graph.vertexList['I'], 1)
+    graph.vertexList['E'].addEdge(graph.vertexList['D'], 10)
+    graph.vertexList['F'].addEdge(graph.vertexList['I'], 2)
+    graph.vertexList['F'].addEdge(graph.vertexList['E'], 2)
+    graph.vertexList['F'].addEdge(graph.vertexList['G'], 2)
+    graph.vertexList['G'].addEdge(graph.vertexList['H'], 2)
+    graph.vertexList['G'].addEdge(graph.vertexList['F'], 2)
+    graph.vertexList['H'].addEdge(graph.vertexList['A'], 2)
+    graph.vertexList['H'].addEdge(graph.vertexList['G'], 2)
+    graph.vertexList['I'].addEdge(graph.vertexList['A'], 50)
+    graph.vertexList['I'].addEdge(graph.vertexList['E'], 1)
+    graph.vertexList['I'].addEdge(graph.vertexList['F'], 2)
+    graph.vertexList['I'].addEdge(graph.vertexList['D'], 1)
+
+    return graph
+
+def setPredsWeighted(start, end, G):
+    startVertex = G.vertexList[start]
+    searchQueue = [startVertex]
+
+    startVertex.distance = 0
+    done = False
+    while len(searchQueue) > 0 and not done:
+        currentVertex = searchQueue.pop(0)
+        for nbr in currentVertex.connectedTo:
+            weight = currentVertex.connectedTo[nbr]
+            if nbr.distance > (currentVertex.distance + weight):
+                nbr.pred = currentVertex
+                nbr.distance = currentVertex.distance + weight
+                # print("{0}, {1}".format(nbr.value, nbr.pred.value))
+                searchQueue.append(nbr)
+
+    return G
+
+def setPredsUnweighted(start, end, G):
+    startVertex = G.vertexList[start]
+    searchQueue = [startVertex]
+
+    startVertex.distance = 0
+    done = False
+    while len(searchQueue) > 0 and not done:
+        currentVertex = searchQueue.pop(0)
+        currentVertex.color = 'gray'
+        for nbr in currentVertex.connectedTo.keys():
+            if nbr.color == 'white':
+                nbr.pred = currentVertex
+                # print("{0}, {1}".format(nbr.value, nbr.pred.value))
+                searchQueue.append(nbr)
+
+    return G
+
+def shortestPath(start, end, G):
+    x = end
+
+    while x != start:
+        vertex = G.vertexList[x]
+        print vertex.pred.value
+        x = vertex.pred.value
+
+# graph = buildGraph(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'])
+#
+# graph_paths = setPredsWeighted('A', 'E', graph)
+#
+# shortestPath('A', 'E', graph_paths)
+
+
+def buildBoggleGraph(vertices):
+    graph= Graph()
+
+    for value in vertices:
+        newVertex = Vertex(value)
+        graph.vertexList[value] = newVertex
+
+    graph.vertexList['C'].addEdge(graph.vertexList['A'])
+    graph.vertexList['C'].addEdge(graph.vertexList['O'])
+    graph.vertexList['C'].addEdge(graph.vertexList['D'])
+
+    graph.vertexList['A'].addEdge(graph.vertexList['C'])
+    graph.vertexList['A'].addEdge(graph.vertexList['T'])
+    graph.vertexList['A'].addEdge(graph.vertexList['D'])
+    graph.vertexList['A'].addEdge(graph.vertexList['O'])
+    graph.vertexList['A'].addEdge(graph.vertexList['G'])
+
+    graph.vertexList['T'].addEdge(graph.vertexList['A'])
+    graph.vertexList['T'].addEdge(graph.vertexList['O'])
+    graph.vertexList['T'].addEdge(graph.vertexList['G'])
+
+    graph.vertexList['D'].addEdge(graph.vertexList['C'])
+    graph.vertexList['D'].addEdge(graph.vertexList['A'])
+    graph.vertexList['D'].addEdge(graph.vertexList['O'])
+    graph.vertexList['D'].addEdge(graph.vertexList['L'])
+    graph.vertexList['D'].addEdge(graph.vertexList['R'])
+
+    graph.vertexList['O'].addEdge(graph.vertexList['C'])
+    graph.vertexList['O'].addEdge(graph.vertexList['A'])
+    graph.vertexList['O'].addEdge(graph.vertexList['T'])
+    graph.vertexList['O'].addEdge(graph.vertexList['D'])
+    graph.vertexList['O'].addEdge(graph.vertexList['G'])
+    graph.vertexList['O'].addEdge(graph.vertexList['R'])
+    graph.vertexList['O'].addEdge(graph.vertexList['L'])
+    graph.vertexList['O'].addEdge(graph.vertexList['P'])
+
+    graph.vertexList['G'].addEdge(graph.vertexList['T'])
+    graph.vertexList['G'].addEdge(graph.vertexList['A'])
+    graph.vertexList['G'].addEdge(graph.vertexList['O'])
+    graph.vertexList['G'].addEdge(graph.vertexList['R'])
+    graph.vertexList['G'].addEdge(graph.vertexList['P'])
+
+    graph.vertexList['L'].addEdge(graph.vertexList['D'])
+    graph.vertexList['L'].addEdge(graph.vertexList['O'])
+    graph.vertexList['L'].addEdge(graph.vertexList['O'])
+
+    graph.vertexList['R'].addEdge(graph.vertexList['T'])
+    graph.vertexList['R'].addEdge(graph.vertexList['D'])
+    graph.vertexList['R'].addEdge(graph.vertexList['O'])
+    graph.vertexList['R'].addEdge(graph.vertexList['G'])
+    graph.vertexList['R'].addEdge(graph.vertexList['P'])
+
+    graph.vertexList['P'].addEdge(graph.vertexList['G'])
+    graph.vertexList['P'].addEdge(graph.vertexList['O'])
+    graph.vertexList['P'].addEdge(graph.vertexList['G'])
+
+    return graph
+
+def find_words(board, all_words, current_word="", words=[], start_vertex=None):
+    if start_vertex == None:
+        start_vertex = board.vertexList[board.vertexList.keys()[0]]
+    queue = [start_vertex]
+
+    while len(queue) > 0:
+        current_vertex = queue.pop(0)
+        current_vertex.color = 'gray'
+        if current_word == None:
+            current_word = current_vertex.value
+        # print current_word
+        try:
+            word_try = all_words[current_word]
+            if word_try:
+                print current_word
+                words.append(current_word)
+        except:
+            pass
+
+        for nbr in current_vertex.connectedTo:
+            if nbr.color == 'white':
+                current_word += nbr.value
+                next_words = find_words(board, all_words, current_word, words, nbr)
+                words = words + next_words
+                current_word=""
+        current_vertex.color = 'white'
+
+    return words
+
+graph = buildBoggleGraph(['A', 'C', 'T', 'D', 'O', 'G', 'L', 'R', 'P'])
+
+all_words = {}
+lines = open('boggle_words.py', 'r')
+
+for line in lines:
+    all_words[line[1:-2].upper()] = True
+
+# print all_words
+print find_words(graph, all_words)
