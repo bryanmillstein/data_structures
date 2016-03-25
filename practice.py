@@ -868,3 +868,105 @@ def find_words(board, all_words, current_word="", words=[], start_vertex=None):
 
 # print all_words
 # print find_words(graph, all_words)
+
+
+def flatten_array(array):
+
+    flattened_array = []
+    for element in array:
+
+        if isinstance(element, int):
+            next_element = [element]
+        elif len(element) == 1:
+            next_element = element
+        else:
+            next_element = flatten_array(element)
+
+        flattened_array += next_element
+
+    return flattened_array
+
+# print flatten_array([[1, 2, [3]], [4, [5, 6]]])
+
+def get_combinations(array, moves):
+    combinations = []
+
+    for row in range(len(array)):
+        for col in range(len(array)):
+            current_num = array[row][col]
+            queue = []
+            queue.append([row, col, [current_num]])
+
+            while len(queue) > 0:
+                current_row, current_col, path = queue.pop(0)
+                for move in moves:
+                    next_row = current_row + move[0]
+                    next_col = current_col + move[1]
+
+                    if (0 <= next_row < len(array)) and (0 <= next_col < len(array)):
+                        if array[next_row][next_col] not in path:
+                            next_path = path + [(array[next_row][next_col])]
+                            if len(next_path) >= 4:
+                                combinations.append(next_path)
+                                print next_path
+                            else:
+                                queue.append([next_row, next_col, next_path])
+                                # print queue
+    return combinations
+
+
+grid = [[1, 2, 3],[4, 5, 6],[7, 8, 9]]
+
+moves = [[1, 1],[1, -1],[-1, 1],[-1, -1],[0, 1],[0, -1],[1, 0],[-1, 0]]
+
+# print len(get_combinations(grid, moves))
+
+def get_combinations(start, path=[]):
+    if len(path) == 4:
+        return path
+
+    all_combinations = []
+    start.discovered = True
+    for nbr in start.get_nbrs():
+        if not nbr.discoverd:
+            next_path = path + [nbr]
+            next_combination = get_combinations(nbr, next_path)
+            all_combinations.append(next_combination)
+    return next_combination
+
+def rotate_matrix(matrix):
+    level = 0
+    while level < len(matrix) / 2:
+        for i in range(len(matrix) - 1 - level):
+            length = len(matrix) - 1
+
+            tl = matrix[level][i + level]
+            tr = matrix[level + i][length - level]
+            br = matrix[length - level][length - level - i]
+            bl = matrix[length - level - i][level]
+
+            print bl
+            # matrix[level][i + level], matrix[level + i][length - level], matrix[length - level][length - level - i], matrix[length - level - i][level] = matrix[level + i][length - level], matrix[length - level][length - level - i], matrix[length - level - i][level], matrix[level][i + level]
+            matrix[level][i + level], matrix[level + i][length - level], matrix[length - level][length - level - i], matrix[length - level - i][level] = bl, tl, tr, br
+
+            print 'NEXT CELL'
+
+        level += 1
+        print 'NEXT LEVEL'
+    return matrix
+
+starting_matrix = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+    [13, 14, 15, 16]
+]
+
+# [
+#     [13, 9, 5, 1],
+#     [14, 11, 10, 2],
+#     [15, 7, 6, 3],
+#     [16, 12, 8, 4]
+# ]
+
+print rotate_matrix(starting_matrix)
