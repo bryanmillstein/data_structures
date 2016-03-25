@@ -76,3 +76,12 @@ def longestPalindrome(string):
             startPoint += 1
         index -= 1
     return None
+
+def isPalindrome(string):
+    print string
+    for i in range(len(string)/2):
+        if string[i] != string[len(string) - i - 1]:
+            return False
+    return True
+
+print longestPalindrome('bbbbaa')

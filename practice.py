@@ -858,13 +858,13 @@ def find_words(board, all_words, current_word="", words=[], start_vertex=None):
 
     return words
 
-graph = buildBoggleGraph(['A', 'C', 'T', 'D', 'O', 'G', 'L', 'R', 'P'])
+# graph = buildBoggleGraph(['A', 'C', 'T', 'D', 'O', 'G', 'L', 'R', 'P'])
 
-all_words = {}
-lines = open('boggle_words.py', 'r')
-
-for line in lines:
-    all_words[line[1:-2].upper()] = True
+# all_words = {}
+# lines = open('boggle_words.py', 'r')
+#
+# for line in lines:
+#     all_words[line[1:-2].upper()] = True
 
 # print all_words
-print find_words(graph, all_words)
+# print find_words(graph, all_words)

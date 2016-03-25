@@ -3,7 +3,7 @@
 class Trie():
 
 	def __init__(self, *words):
-		""" The initialize builds the Trie with nested dictionaries 
+		""" The initialize builds the Trie with nested dictionaries
 		    from an argument of words."""
 
 		root = dict()
